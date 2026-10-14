@@ -28,6 +28,9 @@ ol{margin:0;padding-left:22px}
 ol li+li{margin-top:10px}
 .note{font-size:14px;color:var(--muted);text-align:center;margin:20px 0 0}
 .hidden{display:none}
+.lang{display:flex;justify-content:center;gap:8px;margin:24px 0 0}
+.lang button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:6px 14px;font:500 14px/1.2 inherit;font-family:inherit;cursor:pointer}
+.lang button[aria-pressed="true"]{border-color:var(--brand);color:var(--brand)}
 </style>
 </head>
 <body>
@@ -50,8 +53,29 @@ ol li+li{margin-top:10px}
   </g>
 </svg>
 <h1>Нютаг</h1>
-<p class="lead">Переписка и звонки для своих. Всё шифруется на ваших устройствах.</p>
-<section class="card"><p style="margin:0;text-align:center">Вход только по приглашению. Если вам прислали ссылку с кодом, откройте её на телефоне.</p></section>
+<p class="lead" data-i18n="lead">Переписка и звонки для своих. Всё шифруется на ваших устройствах.</p>
+<section class="card"><p style="margin:0;text-align:center" data-i18n="only">Вход только по приглашению. Если вам прислали ссылку с кодом, откройте её на телефоне.</p></section>
+<div class="lang" role="group" aria-label="Язык / Хэлэн"><button type="button" data-lang="ru">Русский</button><button type="button" data-lang="bxr">Буряад</button></div>
 </main>
+<script>
+(function () {
+  var L = {
+    ru: {lead: "Переписка и звонки для своих. Всё шифруется на ваших устройствах.", only: "Вход только по приглашению. Если вам прислали ссылку с кодом, откройте её на телефоне."},
+    bxr: {lead: "Өөрынхидтэеэ бэшэлгэ, дуудалга. Бүхы юумэн таны утаһан дээрэ шифрлэгдэнэ.", only: "Зөөхэн урилгаар орохо. Кодтой холбоос танда эльгээгдэһэн һаа, утаһан дээрээ нээгты."}
+  };
+  function setLang(lang) {
+    var T = L[lang] || L.ru;
+    document.documentElement.lang = lang === "bxr" ? "bxr" : "ru";
+    document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = T[el.getAttribute("data-i18n")]; });
+    document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === lang)); });
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("lang"); } catch (e) {}
+  var nav = (navigator.language || "").toLowerCase();
+  setLang(saved || (nav.indexOf("bxr") === 0 || nav.indexOf("bua") === 0 ? "bxr" : "ru"));
+  document.querySelectorAll(".lang button").forEach(function (b) { b.addEventListener("click", function () { setLang(b.getAttribute("data-lang")); }); });
+})();
+</script>
 </body>
 </html>

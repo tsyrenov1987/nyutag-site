@@ -31,6 +31,9 @@ ol{margin:0;padding-left:22px}
 ol li+li{margin-top:10px}
 .note{font-size:14px;color:var(--muted);text-align:center;margin:20px 0 0}
 .hidden{display:none}
+.lang{display:flex;justify-content:center;gap:8px;margin:24px 0 0}
+.lang button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:6px 14px;font:500 14px/1.2 inherit;font-family:inherit;cursor:pointer}
+.lang button[aria-pressed="true"]{border-color:var(--brand);color:var(--brand)}
 </style>
 </head>
 <body>
@@ -52,31 +55,60 @@ ol li+li{margin-top:10px}
   </g>
   </g>
 </svg>
-<h1>Вас пригласили в Нютаг</h1>
-<p class="lead">Переписка и звонки для своих. Всё шифруется на ваших устройствах.</p>
+<h1 data-i18n="title">Вас пригласили в Нютаг</h1>
+<p class="lead" data-i18n="lead">Переписка и звонки для своих. Всё шифруется на ваших устройствах.</p>
 
 <section class="card" id="with-code">
-  <p class="label">Код приглашения</p>
+  <p class="label" data-i18n="label">Код приглашения</p>
   <p class="code" id="code">—</p>
-  <a class="btn primary" id="open" href="#">Открыть в Нютаге</a>
-  <button class="btn ghost" id="copy" type="button">Скопировать код</button>
+  <a class="btn primary" id="open" href="#" data-i18n="open">Открыть в Нютаге</a>
+  <button class="btn ghost" id="copy" type="button" data-i18n="copy">Скопировать код</button>
 </section>
 
 <section class="card hidden" id="no-code">
-  <p style="margin:0;text-align:center">В ссылке нет кода. Попросите новое приглашение у знакомого, который уже в Нютаге.</p>
+  <p style="margin:0;text-align:center" data-i18n="nocode">В ссылке нет кода. Попросите новое приглашение у знакомого, который уже в Нютаге.</p>
 </section>
 
 <section class="card">
   <ol>
-    <li>Установите Нютаг. Ссылку на установку пришлёт тот, кто вас пригласил.</li>
-    <li>Нажмите «Открыть в Нютаге» или откройте приложение, выберите «У меня есть приглашение» и введите код.</li>
-    <li>Укажите e-mail, номер телефона и имя. По номеру вас найдут знакомые.</li>
+    <li data-i18n="s1">Установите Нютаг. Ссылку на установку пришлёт тот, кто вас пригласил.</li>
+    <li data-i18n="s2">Нажмите «Открыть в Нютаге» или откройте приложение, выберите «У меня есть приглашение» и введите код.</li>
+    <li data-i18n="s3">Укажите e-mail, номер телефона и имя. По номеру вас найдут знакомые.</li>
   </ol>
 </section>
 
-<p class="note">Код сработает один раз и действует 7 дней.</p>
+<p class="note" data-i18n="note">Код сработает один раз и действует 7 дней.</p>
+<div class="lang" role="group" aria-label="Язык / Хэлэн"><button type="button" data-lang="ru">Русский</button><button type="button" data-lang="bxr">Буряад</button></div>
 </main>
 <script>
+var L = {
+  ru: {title: "Вас пригласили в Нютаг", lead: "Переписка и звонки для своих. Всё шифруется на ваших устройствах.", label: "Код приглашения", open: "Открыть в Нютаге", copy: "Скопировать код", copied: "Скопировано",
+    nocode: "В ссылке нет кода. Попросите новое приглашение у знакомого, который уже в Нютаге.",
+    s1: "Установите Нютаг. Ссылку на установку пришлёт тот, кто вас пригласил.",
+    s2: "Нажмите «Открыть в Нютаге» или откройте приложение, выберите «У меня есть приглашение» и введите код.",
+    s3: "Укажите e-mail, номер телефона и имя. По номеру вас найдут знакомые.", note: "Код сработает один раз и действует 7 дней."},
+  bxr: {title: "Таниие Нютагта уриба", lead: "Өөрынхидтэеэ бэшэлгэ, дуудалга. Бүхы юумэн таны утаһан дээрэ шифрлэгдэнэ.", label: "Урилгын код", open: "Нютагта нээхэ", copy: "Код хуулаха", copied: "Хуулагдаба",
+    nocode: "Холбоосто код үгы. Нютагта байһан танилһаа шэнэ урилга гуйгты.",
+    s1: "Нютаг табигты. Табиха холбоосыень таниие уриһан хүн эльгээхэ.",
+    s2: "«Нютагта нээхэ» дарагты, али аппликациие нээгээд, «Намда урилга бии» шэлэжэ, код оруулагты.",
+    s3: "E-mail, утаһанай дугаар, нэрээ оруулагты. Дугаараар танилнуудтнай таниие олохо.", note: "Код нэгэ удаа хэрэглэгдэхэ, 7 хоног хүсэнтэй."}
+};
+var T = L.ru;
+function setLang(lang) {
+  T = L[lang] || L.ru;
+  document.documentElement.lang = lang === "bxr" ? "bxr" : "ru";
+  document.title = T.title;
+  document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = T[el.getAttribute("data-i18n")]; });
+  document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === lang)); });
+  try { localStorage.setItem("lang", lang); } catch (e) {}
+}
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem("lang"); } catch (e) {}
+  var nav = (navigator.language || "").toLowerCase();
+  setLang(saved || (nav.indexOf("bxr") === 0 || nav.indexOf("bua") === 0 ? "bxr" : "ru"));
+  document.querySelectorAll(".lang button").forEach(function (b) { b.addEventListener("click", function () { setLang(b.getAttribute("data-lang")); }); });
+})();
 (function () {
   var raw = decodeURIComponent((location.hash || "").slice(1)).toUpperCase().replace(/[^0-9A-Z]/g, "");
   if (raw.length !== 8) {
@@ -89,10 +121,10 @@ ol li+li{margin-top:10px}
   document.getElementById("open").href = "nyutag://invite/" + code;
   var copy = document.getElementById("copy");
   copy.addEventListener("click", function () {
-    function done() { copy.textContent = "Скопировано"; setTimeout(function () { copy.textContent = "Скопировать код"; }, 2000); }
+    function done() { copy.textContent = T.copied; setTimeout(function () { copy.textContent = T.copy; }, 2000); }
     try {
-      navigator.clipboard.writeText(code).then(done, function () { window.prompt("Код приглашения", code); });
-    } catch (e) { window.prompt("Код приглашения", code); }
+      navigator.clipboard.writeText(code).then(done, function () { window.prompt(T.label, code); });
+    } catch (e) { window.prompt(T.label, code); }
   });
 })();
 </script>
