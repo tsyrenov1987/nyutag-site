@@ -1,18 +1,27 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "chat.nyutag.messenger",
-      "sha256_cert_fingerprints": ["B0:B0:51:DC:56:5C:81:2F:E1:7F:6F:3E:94:5B:4D:79:04:71:23:AB:0D:A6:12:86:76:9E:B2:94:91:97:13:0E"]
+      "sha256_cert_fingerprints": [
+        "B0:B0:51:DC:56:5C:81:2F:E1:7F:6F:3E:94:5B:4D:79:04:71:23:AB:0D:A6:12:86:76:9E:B2:94:91:97:13:0E",
+        "EA:3F:3C:91:77:BE:14:0D:E4:D1:8E:A7:D6:60:42:57:93:B0:E6:A1:4D:35:72:41:DC:7F:0D:A2:A7:E1:0B:2E"
+      ]
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "chat.nyutag.messenger.debug",
-      "sha256_cert_fingerprints": ["B0:B0:51:DC:56:5C:81:2F:E1:7F:6F:3E:94:5B:4D:79:04:71:23:AB:0D:A6:12:86:76:9E:B2:94:91:97:13:0E"]
+      "sha256_cert_fingerprints": [
+        "B0:B0:51:DC:56:5C:81:2F:E1:7F:6F:3E:94:5B:4D:79:04:71:23:AB:0D:A6:12:86:76:9E:B2:94:91:97:13:0E"
+      ]
     }
   }
 ]
